@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Recommendation System</h1>
+        <h2>Data Overview</h2>
+        <p>No of rows: {{ rows }}</p>
+        <p>No of columns: {{ columns }}</p>
+        <p>Number of unique USERS: {{ num_users }}</p>
+        <p>Number of unique PRODUCTS: {{ num_products }}</p>
+        <img src="{{ url_for('static', filename='rating_distribution.png') }}" alt="Rating Distribution">
+        
+        <form method="POST" action="/recommend">
+            <div>
+                <label for="num_of_products">Number of Products:</label>
+                <input type="number" id="num_of_products" name="num_of_products" required>
+            </div>
+            <div>
+                <label for="min_interaction">Minimum Interactions:</label>
+                <input type="number" id="min_interaction" name="min_interaction" required>
+            </div>
+            <button type="submit">Get Recommendations</button>
+        </form>
+
+        {% if recommendations %}
+            <h2>Recommendations:</h2>
+            <ul>
+                {% for item in recommendations %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        {% elif error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
